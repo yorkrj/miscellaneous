@@ -1,130 +1,142 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<HTML 
-xmlns="http://www.w3.org/1999/xhtml"><HEAD><META content="IE=11.0000" 
-http-equiv="X-UA-Compatible">
-<TITLE>Untitled Page</TITLE> 
-<META name="Description" content="Vid-IO is the brainchild of Robert York, artist and programmer. An evolving collection of his &#10;explorations in video, sound, paint, net art, computers, order, chaos, and the world at large. ">
-<META name="Keywords" content="fine art, net art, artist, video, video art, sound, sonic art, painting, new york, &#10;science, programming, hacking, experimentation, improvisation, expression, image, experimental art, noise, Robert York">
-<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><LINK 
-href="EditText.aspx_files/main.htm" rel="stylesheet" type="text/css" media="screen">
-<META name="GENERATOR" content="MSHTML 11.00.9600.16518"></HEAD>
-<BODY>     
-<FORM>
-<DIV>
-<SCRIPT type="text/javascript">
-	function colapseLines() {
-		// Replace whitespace with linefeeds
-		var splitString = document.forms[0].myinput.value;
-		var newString =  splitString.replace(new RegExp("( )", 'gim'),"$1\n") + "\n";
-		document.forms[0].myinput.value = newString;
-		
-		//Remove excess whitespace
-		var splitString = document.forms[0].myinput.value.split("\n");
-		var newString = "";
-		for (i=0; i<=splitString.length-1; i++)
-			if (splitString[i].replace(/\n|\r/gi,'') != "")
-				newString += splitString[i].replace(/\n|\r/gi,'') + "\n";
-		document.forms[0].myinput.value = newString;
+<html>
+<head>
+    <title>Text Editor</title>
+    <style>
+        body {
+            font: 12px sans-serif;
+        }
 
-		// Colapse to lines N characters long
-		var splitString = document.forms[0].myinput.value.split("\n");
-		var newString = splitString[0].replace(/\n|\r/gi,'');
-		var wrappedLength = 0;
+        div {
+            margin: 1em;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <div>
+            <h1>Text Editor</h1>
+            <input onmouseup="shrinkBox()" type="button" value="-" />
+            <input onmouseup="growBox()" type="button" value="+" />&nbsp;&nbsp;&nbsp;
+            <input onclick="myinput.value='';text1.value='';text2.value='';" type="button" value="clear all" />
+            <input onclick=" text1.value='';text2.value='';" type="button" value="clear 1&amp;2" />
+        </div><div>
+            <textarea name="myinput" id="textarea1" style="width: 100%; height: 200px;"></textarea>
+        </div><div>
+            1:     <input name="text1" style="width: 95%;" type="text" />
+        </div><div>
+            2:     <input name="text2" style="width: 95%;" type="text" />
+        </div><div>
+            <input id="button3" onclick="prePostPend()" type="button" value="prepend [1], postpend [2]" />
+            <input id="button4" onclick="replaceWith()" type="button" value="replace [1] with [2]" />
+            <input id="button5" onclick="replaceWithLinefeeds()" type="button" value="replace [1] with linefeeds" />
+        </div><div>
+            <input id="button2" onclick="removeEmptyLines()" type="button" value="remove empty lines" />
+            <input id="button1" onclick="colapseLines()" type="button" value="colapse lines to [1] chars" />
+        </div><div>
+            <input id="button6" onclick="myinput.value = myinput.value.toUpperCase()" type="button" value="to upper" />
+            <input id="button7" onclick="myinput.value = myinput.value.toLowerCase()" type="button" value="to lower" />
+            <input onclick="convertUpperCase()" type="button" value="underscores to upper" />
+        </div>
+        <div>
 
-		for (i=1; i<=splitString.length-1; i++) {
-			if ((newString.length + splitString[i].length - wrappedLength) <=
-document.forms[0].text1.value) {
-				newString += " " + splitString[i].replace(/\n|\r/gi,'');
-			} else {
-				wrappedLength = newString.length;
-				newString += "\n" + splitString[i].replace(/\n|\r/gi,'');
-			}
-		}
-		document.forms[0].myinput.value = newString;
-	}
-
-	function prePostPend() {
-		var splitString = document.forms[0].myinput.value.split("\n");
-		var newString = "";
-		for (i=0; i<=splitString.length-1; i++) {
-			newString += document.forms[0].text1.value + splitString[i].replace(/\n|\r/gi,'') +
-document.forms[0].text2.value + "\n";
-			}
-		document.forms[0].myinput.value = newString;
-	}
-
-	function removeEmptyLines() {
-		var splitString = document.forms[0].myinput.value.split("\n");
-		var newString = "";
-		for (i=0; i<=splitString.length-1; i++)
-			if (splitString[i].replace(/\n|\r/gi,'') != "")
-				newString += splitString[i].replace(/\n|\r/gi,'') + "\n";
-		document.forms[0].myinput.value = newString;
-	}
-
-	function replaceWith() {
-		var splitString = document.forms[0].myinput.value;
-		var newString =  splitString.replace(new RegExp(document.forms[0].text1.value,
-'gim'),document.forms[0].text2.value) + "\n";
-		document.forms[0].myinput.value = newString;
-	}
-
-	function replaceWithLinefeeds() {
-		var splitString = document.forms[0].myinput.value;
-		var newString =  splitString.replace(new RegExp("(" + document.forms[0].text1.value + ")",
-'gim'),"$1\n") + "\n";
-		document.forms[0].myinput.value = newString;
-	}
-
-	function convertUpperCase() {
-		document.forms[0].myinput.value = document.forms[0].myinput.value.toLowerCase();
-		var splitString = document.forms[0].myinput.value.split("\n");
-		var newString = "";
-		for (i=0; i<=splitString.length-1; i++)
-			splitString[i] = splitString[i].split("_");
-
-		for (i=0; i<=splitString.length-1; i++)
-			for (j=0; j<=splitString[i].length-1; j++)
-				newString += splitString[i][j].substr(0,1).toUpperCase() +
-splitString[i][j].substr(1);
-
-		document.forms[0].myinput.value = newString;
-	}
-
-	function shrinkBox() {
-		document.all.textarea1.style.height =
-(Number(document.all.textarea1.style.height.replace('px',''))-25)+"px";
-	}
-
-	function growBox() {
-		document.all.textarea1.style.height =
-(Number(document.all.textarea1.style.height.replace('px',''))+25)+"px";
-	}
-</SCRIPT>
-     
-<H1>        Text Editor         
-<INPUT onmouseup="shrinkBox()" type="button" value="-">         
-<INPUT onmouseup="growBox()" type="button" value="+">&nbsp;&nbsp;&nbsp;        
-<INPUT onclick="myinput.value='';text1.value='';text2.value='';" type="button" value="clear all"> 
-        <INPUT onclick=" text1.value='';text2.value='';" type="button" value="clear 1&amp;2"> 
-        <A href="file:///C:/Users/Robert/AppData/Local/Microsoft/Windows/INetCache/IE/M2US3R59/EditText.aspx.htm#">back</A> 
-    </H1><TEXTAREA name="myinput" id="textarea1" style="width: 100%; height: 200px;"></TEXTAREA> 
-    <BR>    1:     <INPUT name="text1" style="background: 0pt 50%; width: 95%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;" type="text"> 
-    <BR>    2:     <INPUT name="text2" style="background: 0pt 50%; width: 95%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;" type="text"> 
-    
-<BR><BR><INPUT name="button2" id="button2" onclick="removeEmptyLines()" type="button" value="remove empty lines"> 
-    
-<INPUT name="button2" id="button1" onclick="colapseLines()" type="button" value="colapse lines to [1] chars"> 
-    
-<INPUT name="button2" id="button3" onclick="prePostPend()" type="button" value="prepend [1], postpend [2]"> 
-    <BR><BR><INPUT name="button2" id="button4" onclick="replaceWith()" type="button" value="replace [1] with [2]"> 
-    <INPUT name="button2" id="button5" onclick="replaceWithLinefeeds()" type="button" value="replace with linefeeds"> 
-    <BR><BR><INPUT name="button2" id="button6" onclick="myinput.value = myinput.value.toUpperCase()" type="button" value="upper"> 
-    <INPUT name="button2" id="button7" onclick="myinput.value = myinput.value.toLowerCase()" type="button" value="lower"> 
-    <INPUT onclick="convertUpperCase()" type="button" value="underscores to upper"> 
-    
-<HR>
-<B>Scratch area:</B>     <TEXTAREA name="myinpu2" id="textarea2" style="background: 0pt 50%; width: 100%; height: 100px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">^(\w+)[\n\r]*$
+            <b>Notes:</b>
+            <textarea name="myinpu2" id="textarea2" style="width: 100%; height: 100px;">^(\w+)[\n\r]*$
 ^(\w+)	(\w+)[\n\r]*$
-</TEXTAREA> 
-        </DIV></FORM></BODY></HTML>
+</textarea>
+        </div>
+    </form>
+    <script type="text/javascript">
+        function colapseLines() {
+            // TODO inefficient and inserts extra spaces on subsequent runs.
+
+            // Replace whitespace with linefeeds
+            var splitString = document.forms[0].myinput.value;
+            var newString = splitString.replace(new RegExp("( )", 'gim'), "$1\n") + "\n";
+            document.forms[0].myinput.value = newString;
+
+            //Remove excess whitespace
+            var splitString = document.forms[0].myinput.value.split("\n");
+            var newString = "";
+            for (i = 0; i <= splitString.length - 1; i++)
+                if (splitString[i].replace(/\n|\r/gi, '') != "")
+                    newString += splitString[i].replace(/\n|\r/gi, '') + "\n";
+            document.forms[0].myinput.value = newString;
+
+            // Colapse to lines N characters long
+            var splitString = document.forms[0].myinput.value.split("\n");
+            var newString = splitString[0].replace(/\n|\r/gi, '');
+            var wrappedLength = 0;
+
+            for (i = 1; i <= splitString.length - 1; i++) {
+                if ((newString.length + splitString[i].length - wrappedLength) <=
+                    document.forms[0].text1.value) {
+                    newString += " " + splitString[i].replace(/\n|\r/gi, '');
+                } else {
+                    wrappedLength = newString.length;
+                    newString += "\n" + splitString[i].replace(/\n|\r/gi, '');
+                }
+            }
+            document.forms[0].myinput.value = newString;
+        }
+
+        function prePostPend() {
+            var splitString = document.forms[0].myinput.value.split("\n");
+            var newString = "";
+            for (i = 0; i <= splitString.length - 1; i++) {
+                newString += document.forms[0].text1.value + splitString[i].replace(/\n|\r/gi, '') +
+                    document.forms[0].text2.value + "\n";
+            }
+            document.forms[0].myinput.value = newString;
+        }
+
+        function removeEmptyLines() {
+            // TODO remove lines that have whitespace only too.
+            var splitString = document.forms[0].myinput.value.split("\n");
+            var newString = "";
+            for (i = 0; i <= splitString.length - 1; i++)
+                if (splitString[i].replace(/\n|\r/gi, '') != "")
+                    newString += splitString[i].replace(/\n|\r/gi, '') + "\n";
+            document.forms[0].myinput.value = newString;
+        }
+
+        function replaceWith() {
+            var splitString = document.forms[0].myinput.value;
+            var newString = splitString.replace(new RegExp(document.forms[0].text1.value,
+                'gim'), document.forms[0].text2.value) + "\n";
+            document.forms[0].myinput.value = newString;
+        }
+
+        function replaceWithLinefeeds() {
+            var splitString = document.forms[0].myinput.value;
+            var newString = splitString.replace(new RegExp("(" + document.forms[0].text1.value + ")",
+                'gim'), "$1\n") + "\n";
+            document.forms[0].myinput.value = newString;
+        }
+
+        function convertUpperCase() {
+            document.forms[0].myinput.value = document.forms[0].myinput.value.toLowerCase();
+            var splitString = document.forms[0].myinput.value.split("\n");
+            var newString = "";
+            for (i = 0; i <= splitString.length - 1; i++)
+                splitString[i] = splitString[i].split("_");
+
+            for (i = 0; i <= splitString.length - 1; i++)
+                for (j = 0; j <= splitString[i].length - 1; j++)
+                    newString += splitString[i][j].substr(0, 1).toUpperCase() +
+                        splitString[i][j].substr(1);
+
+            document.forms[0].myinput.value = newString;
+        }
+
+        function shrinkBox() {
+            document.all.textarea1.style.height =
+                (Number(document.all.textarea1.style.height.replace('px', '')) - 25) + "px";
+        }
+
+        function growBox() {
+            document.all.textarea1.style.height =
+                (Number(document.all.textarea1.style.height.replace('px', '')) + 25) + "px";
+        }
+    </script>
+</body>
+</html>
