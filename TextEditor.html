@@ -49,36 +49,25 @@
     </form>
     <script type="text/javascript">
         function colapseLines() {
-            // TODO inefficient and inserts extra spaces on subsequent runs.
+            var wordList = document.forms[0].myinput.value.replace(/[\r,\n]+/,' ').replace(/\W+/,' ').split(/\W+/);
+            var newString = '';
+            var lengthWrapped = 0;
 
-            // Replace whitespace with linefeeds
-            var splitString = document.forms[0].myinput.value;
-            var newString = splitString.replace(new RegExp("( )", 'gim'), "$1\n") + "\n";
-            document.forms[0].myinput.value = newString;
+            if (wordList.length > 0) {
+                newString += wordList[0];
 
-            //Remove excess whitespace
-            var splitString = document.forms[0].myinput.value.split("\n");
-            var newString = "";
-            for (i = 0; i <= splitString.length - 1; i++)
-                if (splitString[i].replace(/\n|\r/gi, '') != "")
-                    newString += splitString[i].replace(/\n|\r/gi, '') + "\n";
-            document.forms[0].myinput.value = newString;
-
-            // Colapse to lines N characters long
-            var splitString = document.forms[0].myinput.value.split("\n");
-            var newString = splitString[0].replace(/\n|\r/gi, '');
-            var wrappedLength = 0;
-
-            for (i = 1; i <= splitString.length - 1; i++) {
-                if ((newString.length + splitString[i].length - wrappedLength) <=
-                    document.forms[0].text1.value) {
-                    newString += " " + splitString[i].replace(/\n|\r/gi, '');
-                } else {
-                    wrappedLength = newString.length;
-                    newString += "\n" + splitString[i].replace(/\n|\r/gi, '');
+                if (wordList.length > 1) {
+                    for (var i = 1; i < wordList.length; i++) {
+                        if (newString.length + wordList[i].length + 1 - lengthWrapped > document.forms[0].text1.value) {
+                            lengthWrapped = newString.length;
+                            newString += '\n' + wordList[i];
+                        } else {
+                            newString += ' ' + wordList[i];
+                        }
+                    }
                 }
+                document.forms[0].myinput.value = newString;
             }
-            document.forms[0].myinput.value = newString;
         }
 
         function prePostPend() {
