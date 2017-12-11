@@ -49,7 +49,7 @@
     </form>
     <script type="text/javascript">
         function colapseLines() {
-            var wordList = document.forms[0].myinput.value.replace(/[\r,\n]+/,' ').replace(/\W+/,' ').split(/\W+/);
+            var wordList = document.forms[0].myinput.value.replace(/[ ,\t,\r,\n]+/gim,' ').split(' ');
             var newString = '';
             var lengthWrapped = 0;
 
