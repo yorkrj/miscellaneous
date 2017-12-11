@@ -120,13 +120,11 @@
         }
 
         function shrinkBox() {
-            document.all.textarea1.style.height =
-                (Number(document.all.textarea1.style.height.replace('px', '')) - 25) + "px";
+            document.forms[0].textarea1.style.height = (Number(document.forms[0].textarea1.style.height.replace('px', '')) - 25) + "px";
         }
 
         function growBox() {
-            document.all.textarea1.style.height =
-                (Number(document.all.textarea1.style.height.replace('px', '')) + 25) + "px";
+            document.forms[0].textarea1.style.height = (Number(document.forms[0].textarea1.style.height.replace('px', '')) + 25) + "px";
         }
     </script>
 </body>
