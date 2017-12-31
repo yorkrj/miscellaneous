@@ -18,10 +18,12 @@
     <form>
         <div>
             <h1>Text Editor</h1>
-            <button id="shrink-textbox" type="button">-</button>
-            <button id="grow-textbox" type="button">+</button>&nbsp;&nbsp;&nbsp;
+            <div style="float:right; margin: 0;">
+                <button id="shrink-textbox" type="button">-</button>
+                <button id="grow-textbox" type="button">+</button>
+            </div>
             <button id="clear-all" type="button">clear all</button>
-            <button id="clear-1-2" type="button">clear 1&amp;2</button>
+            <button id="clear-1-2" type="button">clear 1 &amp; 2</button>
         </div><div>
             <textarea name="mainInput" id="textarea1" style="width: 100%; height: 200px;"></textarea>
         </div><div>
@@ -33,7 +35,7 @@
             <button id="replace-1-with-2" type="button">replace [1] with [2]</button>
             <button id="replace-1-with-linefeeds" type="button">replace [1] with line feeds</button>
         </div><div>
-            <button id="remove-empty-lines" type="button">remove empty lines</button>
+            <button id="remove-empty-lines" type="button">remove empty lines &amp; trailing whitespace</button>
             <button id="colapse-lines" type="button">collapse lines to [1] chars</button>
         </div><div>
             <button id="to-upper" type="button">to upper</button>
@@ -113,12 +115,14 @@
         }
 
         function removeEmptyLines() {
-            // TODO Remove lines that have whitespace only too.
-            var splitString = mainInput.value.split("\n");
-            var newString = "";
-            for (i = 0; i <= splitString.length - 1; i++)
-                if (splitString[i].replace(/\n|\r/gi, '') != "")
-                    newString += splitString[i].replace(/\n|\r/gi, '') + "\n";
+            var splitString = mainInput.value.split('\n');
+            var newString = '';
+            for (i = 0; i <= splitString.length - 1; i++) {
+                var cleansed = splitString[i].replace(/\n|\r/gi, '').replace(/\W+$/gi, '');
+                if (cleansed != '') {
+                    newString += cleansed + "\n";
+                }
+            }
             mainInput.value = newString;
         }
 
