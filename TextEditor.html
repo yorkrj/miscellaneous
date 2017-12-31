@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
     <title>Text Editor</title>
     <style>
         body {
@@ -17,30 +18,29 @@
     <form>
         <div>
             <h1>Text Editor</h1>
-            <input onmouseup="shrinkBox()" type="button" value="-" />
-            <input onmouseup="growBox()" type="button" value="+" />&nbsp;&nbsp;&nbsp;
-            <input onclick="myinput.value='';text1.value='';text2.value='';" type="button" value="clear all" />
-            <input onclick=" text1.value='';text2.value='';" type="button" value="clear 1&amp;2" />
+            <button id="shrink-textbox" type="button">-</button>
+            <button id="grow-textbox" type="button">+</button>&nbsp;&nbsp;&nbsp;
+            <button id="clear-all" type="button">clear all</button>
+            <button id="clear-1-2" type="button">clear 1&amp;2</button>
         </div><div>
-            <textarea name="myinput" id="textarea1" style="width: 100%; height: 200px;"></textarea>
+            <textarea name="mainInput" id="textarea1" style="width: 100%; height: 200px;"></textarea>
         </div><div>
-            1:     <input name="text1" style="width: 95%;" type="text" />
+            1: <input name="text1" style="width: 95%;" type="text" />
         </div><div>
-            2:     <input name="text2" style="width: 95%;" type="text" />
+            2: <input name="text2" style="width: 95%;" type="text" />
         </div><div>
-            <input id="button3" onclick="prePostPend()" type="button" value="prepend [1], postpend [2]" />
-            <input id="button4" onclick="replaceWith()" type="button" value="replace [1] with [2]" />
-            <input id="button5" onclick="replaceWithLinefeeds()" type="button" value="replace [1] with linefeeds" />
+            <button id="pre-post-pend" type="button">prefix [1], append [2]</button>
+            <button id="replace-1-with-2" type="button">replace [1] with [2]</button>
+            <button id="replace-1-with-linefeeds" type="button">replace [1] with line feeds</button>
         </div><div>
-            <input id="button2" onclick="removeEmptyLines()" type="button" value="remove empty lines" />
-            <input id="button1" onclick="colapseLines()" type="button" value="colapse lines to [1] chars" />
+            <button id="remove-empty-lines" type="button">remove empty lines</button>
+            <button id="colapse-lines" type="button">collapse lines to [1] chars</button>
         </div><div>
-            <input id="button6" onclick="myinput.value = myinput.value.toUpperCase()" type="button" value="to upper" />
-            <input id="button7" onclick="myinput.value = myinput.value.toLowerCase()" type="button" value="to lower" />
-            <input onclick="convertUpperCase()" type="button" value="underscores to upper" />
+            <button id="to-upper" type="button">to upper</button>
+            <button id="to-lower" type="button">to lower</button>
+            <button id="underscores-to-upper" type="button">underscores to upper</button>
         </div>
         <div>
-
             <b>Notes:</b>
             <textarea name="myinpu2" id="textarea2" style="width: 100%; height: 100px;">^(\w+)[\n\r]*$
 ^(\w+)	(\w+)[\n\r]*$
@@ -48,8 +48,40 @@
         </div>
     </form>
     <script type="text/javascript">
+        var mainInput = document.getElementsByName('mainInput')[0];
+        var text1input = document.getElementsByName('text1')[0];
+        var text2input = document.getElementsByName('text2')[0];
+
+        document.getElementById('shrink-textbox').onclick = function () {
+            mainInput.style.height = (Number(mainInput.style.height.replace('px', '')) - 25) + "px";
+        }
+
+        document.getElementById('grow-textbox').onclick = function () {
+            mainInput.style.height = (Number(mainInput.style.height.replace('px', '')) + 25) + "px";
+        }
+
+        document.getElementById('clear-all').onclick = function () {
+            mainInput.value = '';
+            text1input.value = '';
+            text2input.value = '';
+        }
+
+        document.getElementById('clear-1-2').onclick = function () {
+            text1input.value = '';
+            text2input.value = '';
+        }
+
+        document.getElementById('pre-post-pend').onclick = prePostPend;
+        document.getElementById('replace-1-with-2').onclick = replaceWith;
+        document.getElementById('replace-1-with-linefeeds').onclick = replaceWithLinefeeds;
+        document.getElementById('remove-empty-lines').onclick = removeEmptyLines;
+        document.getElementById('colapse-lines').onclick = colapseLines;
+        document.getElementById('to-upper').onclick = function () { mainInput.value = mainInput.value.toUpperCase(); }
+        document.getElementById('to-lower').onclick = function () { mainInput.value = mainInput.value.toLowerCase(); }
+        document.getElementById('underscores-to-upper').onclick = convertUpperCase;
+
         function colapseLines() {
-            var wordList = document.forms[0].myinput.value.replace(/[ ,\t,\r,\n]+/gim,' ').split(' ');
+            var wordList = mainInput.value.replace(/[ ,\t,\r,\n]+/gim, ' ').split(' ');
             var newString = '';
             var lengthWrapped = 0;
 
@@ -58,7 +90,7 @@
 
                 if (wordList.length > 1) {
                     for (var i = 1; i < wordList.length; i++) {
-                        if (newString.length + wordList[i].length + 1 - lengthWrapped > document.forms[0].text1.value) {
+                        if (newString.length + wordList[i].length + 1 - lengthWrapped > text1input.value) {
                             lengthWrapped = newString.length;
                             newString += '\n' + wordList[i];
                         } else {
@@ -66,47 +98,48 @@
                         }
                     }
                 }
-                document.forms[0].myinput.value = newString;
+                mainInput.value = newString;
             }
         }
 
         function prePostPend() {
-            var splitString = document.forms[0].myinput.value.split("\n");
+            var splitString = mainInput.value.split("\n");
             var newString = "";
             for (i = 0; i <= splitString.length - 1; i++) {
-                newString += document.forms[0].text1.value + splitString[i].replace(/\n|\r/gi, '') +
-                    document.forms[0].text2.value + "\n";
+                newString += text1input.value + splitString[i].replace(/\n|\r/gi, '') +
+                    text2input.value + "\n";
             }
-            document.forms[0].myinput.value = newString;
+            mainInput.value = newString;
         }
 
         function removeEmptyLines() {
-            // TODO remove lines that have whitespace only too.
-            var splitString = document.forms[0].myinput.value.split("\n");
+            // TODO Remove lines that have whitespace only too.
+            var splitString = mainInput.value.split("\n");
             var newString = "";
             for (i = 0; i <= splitString.length - 1; i++)
                 if (splitString[i].replace(/\n|\r/gi, '') != "")
                     newString += splitString[i].replace(/\n|\r/gi, '') + "\n";
-            document.forms[0].myinput.value = newString;
+            mainInput.value = newString;
         }
 
         function replaceWith() {
-            var splitString = document.forms[0].myinput.value;
-            var newString = splitString.replace(new RegExp(document.forms[0].text1.value,
-                'gim'), document.forms[0].text2.value) + "\n";
-            document.forms[0].myinput.value = newString;
+            var splitString = mainInput.value;
+            var newString = splitString.replace(new RegExp(text1input.value,
+                'gim'), text2input.value) + "\n";
+            mainInput.value = newString;
         }
 
         function replaceWithLinefeeds() {
-            var splitString = document.forms[0].myinput.value;
-            var newString = splitString.replace(new RegExp("(" + document.forms[0].text1.value + ")",
+            var splitString = mainInput.value;
+            var newString = splitString.replace(new RegExp("(" + text1input.value + ")",
                 'gim'), "$1\n") + "\n";
-            document.forms[0].myinput.value = newString;
+            mainInput.value = newString;
         }
 
         function convertUpperCase() {
-            document.forms[0].myinput.value = document.forms[0].myinput.value.toLowerCase();
-            var splitString = document.forms[0].myinput.value.split("\n");
+            //TODO Unexpectedly removes linefeeds.
+            mainInput.value = mainInput.value.toLowerCase();
+            var splitString = mainInput.value.split("\n");
             var newString = "";
             for (i = 0; i <= splitString.length - 1; i++)
                 splitString[i] = splitString[i].split("_");
@@ -116,15 +149,7 @@
                     newString += splitString[i][j].substr(0, 1).toUpperCase() +
                         splitString[i][j].substr(1);
 
-            document.forms[0].myinput.value = newString;
-        }
-
-        function shrinkBox() {
-            document.forms[0].textarea1.style.height = (Number(document.forms[0].textarea1.style.height.replace('px', '')) - 25) + "px";
-        }
-
-        function growBox() {
-            document.forms[0].textarea1.style.height = (Number(document.forms[0].textarea1.style.height.replace('px', '')) + 25) + "px";
+            mainInput.value = newString;
         }
     </script>
 </body>
