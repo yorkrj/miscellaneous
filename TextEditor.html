@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -42,6 +42,10 @@
             <button id="to-lower" type="button">to lower</button>
             <button id="underscores-to-upper" type="button">underscores to upper</button>
         </div>
+              <div>
+                  <button id="a-z" type="button">a - z</button>
+                  <button id="z-a" type="button">z - a</button>
+              </div>
         <div>
             <b>Notes:</b>
             <textarea name="myinpu2" id="textarea2" style="width: 100%; height: 100px;">^(\w+)[\n\r]*$
@@ -81,6 +85,8 @@
         document.getElementById('to-upper').onclick = function () { mainInput.value = mainInput.value.toUpperCase(); }
         document.getElementById('to-lower').onclick = function () { mainInput.value = mainInput.value.toLowerCase(); }
         document.getElementById('underscores-to-upper').onclick = convertUpperCase;
+        document.getElementById('a-z').onclick = function () { sortList(true) };
+        document.getElementById('z-a').onclick = function () { sortList(false) };
 
         function colapseLines() {
             var wordList = mainInput.value.replace(/[ ,\t,\r,\n]+/gim, ' ').split(' ');
@@ -154,6 +160,30 @@
                         splitString[i][j].substr(1);
 
             mainInput.value = newString;
+        }
+
+        function sortList(isAscending) {
+            var splitString = mainInput.value.split("\n");
+            var newString = "";
+            if (isAscending) {
+                splitString.sort(function (a, b) {
+                    if (a.toUpperCase() > b.toUpperCase()) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                });
+            } else {
+                splitString.sort(function (a, b) {
+                    if (a.toUpperCase() < b.toUpperCase()) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                });
+            }
+            
+            mainInput.value = splitString.join("\n").trim();
         }
     </script>
 </body>
