@@ -46,7 +46,8 @@
         </div>
         <div>
             Whitespace
-            <button id="remove-empty-lines" type="button">remove empty lines &amp; trailing whitespace</button>
+            <button id="remove-extra-whitespace" type="button">remove extra whitespace</button>
+            <button id="remove-empty-lines" type="button">remove empty lines</button>
             <button id="colapse-lines" type="button">collapse lines to [1] chars</button>
         </div>
         <div>
@@ -120,6 +121,7 @@
         document.getElementById('replace-1-with-2').onclick = replaceWith;
         document.getElementById('replace-1-with-linefeeds').onclick = replaceWithLinefeeds;
         document.getElementById('remove-empty-lines').onclick = removeEmptyLines;
+        document.getElementById('remove-extra-whitespace').onclick = removeExtraWhitespace;
         document.getElementById('colapse-lines').onclick = colapseLines;
         document.getElementById('to-upper').onclick = function () { mainInput.value = mainInput.value.toUpperCase(); }
         document.getElementById('to-lower').onclick = function () { mainInput.value = mainInput.value.toLowerCase(); }
@@ -163,7 +165,19 @@
             var splitString = mainInput.value.split('\n');
             var newString = '';
             for (i = 0; i <= splitString.length - 1; i++) {
-                var cleansed = splitString[i].replace(/\n|\r/gi, '').replace(/\W+$/gi, '');
+                var cleansed = splitString[i].replace(/\n|\r/gi, '');
+                if (cleansed != '') {
+                    newString += cleansed + "\n";
+                }
+            }
+            mainInput.value = newString;
+        }
+
+        function removeExtraWhitespace() {
+            var splitString = mainInput.value.split('\n');
+            var newString = '';
+            for (i = 0; i <= splitString.length - 1; i++) {
+                var cleansed = splitString[i].replace(/\n|\r/gi, '').replace(/\s+$/gi, '').replace(/^\s+/gi, '');
                 if (cleansed != '') {
                     newString += cleansed + "\n";
                 }
