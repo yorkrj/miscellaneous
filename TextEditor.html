@@ -84,7 +84,7 @@
         document.getElementById('colapse-lines').onclick = colapseLines;
         document.getElementById('to-upper').onclick = function () { mainInput.value = mainInput.value.toUpperCase(); }
         document.getElementById('to-lower').onclick = function () { mainInput.value = mainInput.value.toLowerCase(); }
-        document.getElementById('underscores-to-upper').onclick = convertUpperCase;
+        document.getElementById('underscores-to-upper').onclick = convertUnderscoresToUpperCase;
         document.getElementById('a-z').onclick = function () { sortList(true) };
         document.getElementById('z-a').onclick = function () { sortList(false) };
 
@@ -146,19 +146,21 @@
             mainInput.value = newString;
         }
 
-        function convertUpperCase() {
-            //TODO Unexpectedly removes linefeeds.
+        function convertUnderscoresToUpperCase() {
             mainInput.value = mainInput.value.toLowerCase();
             var splitString = mainInput.value.split("\n");
             var newString = "";
-            for (i = 0; i <= splitString.length - 1; i++)
+            for (i = 0; i <= splitString.length - 1; i++) {
                 splitString[i] = splitString[i].split("_");
+            }
 
-            for (i = 0; i <= splitString.length - 1; i++)
-                for (j = 0; j <= splitString[i].length - 1; j++)
+            for (i = 0; i <= splitString.length - 1; i++) {
+                for (j = 0; j <= splitString[i].length - 1; j++) {
                     newString += splitString[i][j].substr(0, 1).toUpperCase() +
                         splitString[i][j].substr(1);
-
+                }
+                newString += '\n';
+            }
             mainInput.value = newString;
         }
 
