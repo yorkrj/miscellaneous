@@ -1,2 +1,2 @@
-# miscellaneous
-A miscellaneous collection of small code scripts and throw away programs that don't merit their own repository.
+# Portable Text Editor
+This is a lightweight browser based text editor that's helpful for quick and easy text manipulation. Originally written to automate repetitive changes to text in environments where a more full featured editor like Notepad++ or Atom is unavailable.
