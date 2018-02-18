@@ -13,7 +13,7 @@
         }
 
         div {
-            margin: 5px 15px 10px 10px;
+            margin: 10px;
         }
 
         input, textarea {
@@ -39,10 +39,12 @@
 <body>
     <form>
         <div>
-            <span style="float: left; line-height: 2em">1:</span><div style="margin: 0 0 0 15px;"><input name="text1" style="width: 100%;" type="text" /></div>
+            <span style="float: left; position: relative; line-height: 2em">1:</span>
+            <button id="escape-regex" type="button" style="float: right; position: relative; margin-left: -50px; margin-top: -2px">Escape</button>
+            <div style="margin: 0 50px 0 15px; z-index: -1;"><input name="text1" style="width: 100%; z-index: -1;" type="text" /></div>
         </div>
         <div>
-            <span style="float: left; line-height: 2em">2:</span><div style="margin:0 0 0 15px;"><input name="text2" style="width: 100%;" type="text" /></div>
+            <span style="float: left; line-height: 2em">2:</span><div style="margin-left: 15px;"><input name="text2" style="width: 100%;" type="text" /></div>
         </div>
         <div>
             Whitespace
@@ -98,6 +100,10 @@
 
         handleWindowResize();
 
+        document.getElementById('escape-regex').onclick = function () {
+            text1input.value = escapeRegex(text1input.value);
+        }
+
         document.getElementById('shrink-textbox').onclick = function () {
             mainInput.style.height = (Number(mainInput.style.height.replace('px', '')) - 25) + "px";
         }
@@ -128,6 +134,10 @@
         document.getElementById('underscores-to-upper').onclick = convertUnderscoresToUpperCase;
         document.getElementById('a-z').onclick = function () { sortList(true) };
         document.getElementById('z-a').onclick = function () { sortList(false) };
+
+        function escapeRegex(str) {
+            return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
 
         function colapseLines() {
             var wordList = mainInput.value.replace(/[ ,\t,\r,\n]+/gim, ' ').split(' ');
