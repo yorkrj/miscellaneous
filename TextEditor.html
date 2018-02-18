@@ -47,27 +47,28 @@
             <span style="float: left; line-height: 2em">2:</span><div style="margin-left: 15px;"><input name="text2" style="width: 100%;" type="text" /></div>
         </div>
         <div>
-            Whitespace
-            <button id="remove-extra-whitespace" type="button">remove extra whitespace</button>
-            <button id="remove-empty-lines" type="button">remove empty lines</button>
-            <button id="colapse-lines" type="button">collapse lines to [1] chars</button>
-        </div>
-        <div>
             Replacement
             <button id="pre-post-pend" type="button">prefix [1], append [2]</button>
             <button id="replace-1-with-2" type="button">replace [1] with [2]</button>
             <button id="replace-1-with-linefeeds" type="button">replace [1] with line feeds</button>
         </div>
         <div>
+            Whitespace
+            <button id="remove-extra-whitespace" type="button">remove extra whitespace</button>
+            <button id="remove-empty-lines" type="button">remove empty lines</button>
+            <button id="colapse-lines" type="button">collapse lines to <span style="display: inline-block; width: 3.5em;">&nbsp;</span>chars</button>
+            <input id="colapse-length" type="text" style="width: 2.5em; margin-left: -6.75em;" value="120" onclick="return false;" />
+        </div>
+        <div>
             Punctuation
             <button id="to-upper" type="button">to upper</button>
             <button id="to-lower" type="button">to lower</button>
-            <button id="underscores-to-upper" type="button">underscores to upper</button>
+            <button id="underscores-to-upper" type="button">underscores to Pascal case</button>
         </div>
         <div>
             Sorting
-            <button id="a-z" type="button">a - z</button>
-            <button id="z-a" type="button">z - a</button>
+            <button id="a-z" type="button">A to Z</button>
+            <button id="z-a" type="button">Z to A</button>
         </div>
         <div style="float:right; margin-top: -20px;">
             <button id="clear-all" type="button">clear all</button>
@@ -140,7 +141,7 @@
         }
 
         function colapseLines() {
-            var wordList = mainInput.value.replace(/[ ,\t,\r,\n]+/gim, ' ').split(' ');
+            var wordList = mainInput.value.replace(/[ \t\r\n]+/gim, ' ').split(' ');
             var newString = '';
             var lengthWrapped = 0;
 
@@ -149,7 +150,7 @@
 
                 if (wordList.length > 1) {
                     for (var i = 1; i < wordList.length; i++) {
-                        if (newString.length + wordList[i].length + 1 - lengthWrapped > text1input.value) {
+                        if (newString.length + wordList[i].length + 1 - lengthWrapped > document.getElementById('colapse-length').value) {
                             lengthWrapped = newString.length;
                             newString += '\n' + wordList[i];
                         } else {
