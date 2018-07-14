@@ -17,7 +17,7 @@
         }
 
         input, textarea {
-            padding-left: 5px;
+            padding: 2px 7px;
             border: 1px solid #777;
             border-radius: 3px;
             box-shadow: inset 4px 4px 6px #dedeee;
@@ -28,11 +28,15 @@
             background: #fff;
             padding: 2px 10px 3px 10px;
             border: 1px solid #bbb;
-            border-radius: 12px;
+            border-radius: 5px;
         }
         button:active {
             background: #ddd;
             border-color: #000;
+        }
+        .buttonLabel {
+            width: 6.5em;
+            display: inline-block;
         }
     </style>
 </head>
@@ -40,33 +44,35 @@
     <form>
         <div>
             <span style="float: left; position: relative; line-height: 2em">1:</span>
-            <button id="escape-regex" type="button" style="float: right; position: relative; margin-left: -50px; margin-top: -2px">Escape</button>
+            <button id="escape-regex-text1" type="button" style="float: right; position: relative; margin-left: -50px; margin-top: -2px">Escape</button>
             <div style="margin: 0 50px 0 15px; z-index: -1;"><input name="text1" style="width: 100%; z-index: -1;" type="text" /></div>
         </div>
         <div>
             <span style="float: left; line-height: 2em">2:</span><div style="margin-left: 15px;"><input name="text2" style="width: 100%;" type="text" /></div>
         </div>
         <div>
-            Replacement
+            <span class="buttonLabel">Replacement</span>
             <button id="pre-post-pend" type="button">prefix [1], append [2]</button>
             <button id="replace-1-with-2" type="button">replace [1] with [2]</button>
             <button id="replace-1-with-linefeeds" type="button">replace [1] with line feeds</button>
         </div>
         <div>
-            Whitespace
+            <span class="buttonLabel">Whitespace</span>
             <button id="remove-extra-whitespace" type="button">remove extra whitespace</button>
             <button id="remove-empty-lines" type="button">remove empty lines</button>
-            <button id="colapse-lines" type="button">collapse lines to <span style="display: inline-block; width: 3.5em;">&nbsp;</span>chars</button>
-            <input id="colapse-length" type="text" style="width: 2.5em; margin-left: -6.75em;" value="120" onclick="return false;" />
+            <button id="colapse-lines" type="button">collapse lines to <span style="display: inline-block; width: 3.25em;">&nbsp;</span>chars</button>
+            <input id="colapse-length" type="text" style="width: 2.25em; margin-left: -6.55em; vertical-align: baseline; height: 1em;" value="120" onclick="return false;" />
         </div>
         <div>
-            Punctuation
+            <span class="buttonLabel">Punctuation</span>
             <button id="to-upper" type="button">to upper</button>
             <button id="to-lower" type="button">to lower</button>
             <button id="underscores-to-upper" type="button">underscores to Pascal case</button>
+            <!--<button id="underscores-to-camel" type="button">underscores to camel case</button>-->
+            <button id="escape-regex" type="button">escape for regular expression</button>
         </div>
         <div>
-            Sorting
+            <span class="buttonLabel">Sorting</span>
             <button id="a-z" type="button">A to Z</button>
             <button id="z-a" type="button">Z to A</button>
         </div>
@@ -101,8 +107,12 @@
 
         handleWindowResize();
 
-        document.getElementById('escape-regex').onclick = function () {
+        document.getElementById('escape-regex-text1').onclick = function () {
             text1input.value = escapeRegex(text1input.value);
+        }
+
+        document.getElementById('escape-regex').onclick = function () {
+            mainInput.value = escapeRegex(mainInput.value);
         }
 
         document.getElementById('shrink-textbox').onclick = function () {
